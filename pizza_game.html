@@ -12,6 +12,8 @@
  		setTimeout(function(){$(val).fadeIn();}, i * 2000);
  	});
 
+ 	setFade();
+
 	var myTimer = setInterval(function(){incTimer()}, 1000);
 	function incTimer(){
 			$(".timer").html(function(i, val) { 
@@ -24,21 +26,28 @@
 
 				});
 			$("#clock").html(function(i, val) { return val-1});
+
+
+
 			if($("#clock").html()==0)
 				stopTimer();
 			console.log("Timer incremented");
 	}
 
+	function setFade(){
+		$(".ingredient").click(function(){
+			$(this).css('visibility', 'hidden');
+			console.log("clicked");
+		});
+	}
+
+	
+
 	function stopTimer(){
 		clearInterval(myTimer);
 		$(".gameButton").hide();
-		tallyScore();
 	}
 
-	function tallyScore(){
-
-	}
-	
 	});
 
 	</script>
@@ -69,23 +78,23 @@
 					Baking List
 				<p>
 				<div class = "row" ng-repeat="b in baked track by $index" id = "pizza{{$index}}">
-					<p title={{b}} class = "col-md-6">Pizza is baking</p>
-					<p class = "timer col-md-3" id = "pizzaTimer{{$index}}">{{b|ScorePizza}}</p>
+					<p title={{b.ingredients}} class = "col-md-6">Pizza is baking</p>
+					<p class = "timer col-md-3" id = "pizzaTimer{{$index}}" ng-bind="b.bakeTime"></p>
 					<button class = "col-md-3 gameButton" ng-click="removePizza($index)">Remove pizza</button>
 				</div>
 			</div>
 
-			<div class="col-md-6 text-center" style="height:300px;overflow:auto">
+			<div class="col-md-6 text-center" style="height:300px;overflow:auto" id="ingredientsBox">
 
-				Ingredient List
-				<div class = "row gameButton ingredient-rows" ng-repeat="parts in part" hidden="true">
-					<div class = "col-md-4" ng-click="addIngredient($index*3)">
+				Ingredients
+				<div class = "row gameButton ingredient-rows" ng-repeat="parts in part" hidden = "true">
+					<div class = "col-md-4 ingredient" ng-click="addIngredient($index*3)">
 						{{parts[0]}}
 					</div>
-					<div class = "col-md-4" ng-click="addIngredient($index*3+1)">
+					<div class = "col-md-4 ingredient" ng-click="addIngredient($index*3+1)">
 						{{parts[1]}}
 					</div>
-					<div class = "col-md-4" ng-click="addIngredient($index*3+2)">
+					<div class = "col-md-4 ingredient" ng-click="addIngredient($index*3+2)">
 						{{parts[2]}}
 					</div>
 				</div>

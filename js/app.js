@@ -14,14 +14,18 @@ app.controller('MainController', ['$scope', function($scope) {
 		console.log("pushed" + index);
 	}
 	$scope.bakePizza = function(){
-		$scope.baked.push($scope.pizza);
+		var curPizza = {
+		ingredients: $scope.pizza,
+		bakeTime: 0 
+		};
+		$scope.baked.push(curPizza);
 		$("#log").append("<div class='row'> Put a pizza in the oven </div>");
 		$scope.pizza = [];
 		console.log("pushed pizza");
 	}
 	$scope.removePizza=function(index){
 		var curPizza = $("#pizza"+index)
-
+		var bakeTime = $scope.baked[index].bakeTime = $("#pizzaTimer"+index).html();
 		$("#scoreBox").html(function(i,val){
 			return +parseInt(val)+parseInt($("#pizzaTimer"+index).html());
 		})
@@ -35,7 +39,8 @@ app.controller('MainController', ['$scope', function($scope) {
 }]);
 
 app.filter("ScorePizza", function(){
-	return function(pizza){
+	return function(curPizza){
+	var pizza = curPizza.ingredients;
 	var meat = false;
 	var veggie = false;
 	var cheese = false;
